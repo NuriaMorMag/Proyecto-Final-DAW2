@@ -1,0 +1,137 @@
+/* CATEGORY MENU  */
+.category-menu {
+  margin: 1.75rem 0 4rem;
+  /* separación arriba y debajo */
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* Permite que los botones pasen a la siguiente línea si no caben (útil en móvil) */
+  gap: 0.85rem;
+  align-items: center;
+}
+
+/* BUTTONS */
+.category-btn {
+  --accent: #54b7b7;
+  /* cambiar color si está activo*/
+  background: rgba(255, 255, 255, 0.03);
+  /* ligero vidrio oscuro */
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #ddd;
+  padding: 0.5rem 1.15rem;
+  border-radius: 999px;
+  cursor: pointer;
+  /* cambia el cursor a puntero para indicar que es clicable */
+  transition: transform .14s ease, box-shadow .18s ease, color .12s ease;
+  font-weight: 400;
+  font-size: 1.2rem;
+  letter-spacing: .6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45) inset;
+  min-height: 2.4rem;
+  /* altura */
+}
+
+/* hover: elevar y aclarar */
+.category-btn:hover {
+  transform: translateY(-3px);
+  /* eleva ligeramente el botón al pasar el ratón */
+  background: rgba(255, 255, 255, 0.06);
+  /* aclara un poco el fondo para indicar hover */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6) inset;
+  /* intensifica la sombra interna para dar más contraste en hover */
+}
+
+/* active: color de acento con brillo exterior */
+.category-btn.active {
+  background: linear-gradient(180deg, var(--accent) 0%, #4aa6a0 100%);
+  color: #071014;
+  /* texto oscuro dentro del botón activo */
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    /* sombra exterior ligera (glow) + sombra interna para volumen */
+    0 6px 18px rgba(99, 179, 179, 0.12),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  transform: translateY(-2px);
+  /* el botón activo está un poco elevado también */
+}
+
+/* pequeño anillo de foco para teclado (accesibilidad) */
+.category-btn:focus-visible {
+  outline: 3px solid rgba(99, 179, 179, 0.28);
+  outline-offset: 4px;
+}
+
+/* Photo actions (edit, delete, add)*/
+.photo-actions {
+  display: flex;
+  justify-content: center;
+  gap: 25px; /* separación entre Edit y Delete */
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.image-container .photo-actions a {
+  color: white;
+  text-decoration: none;
+}
+
+.photo-actions a:hover {
+  color: #54b7b7;
+  font-weight: 500; /* texto más grueso */
+  transition: color 0.3s;
+}
+
+.image-container a {
+  color: white;
+  text-decoration: none;
+}
+
+.image-container a:hover {
+  color: #54b7b7;
+  font-weight: 500; /* texto más grueso */
+  transition: color 0.3s;
+}
+
+/* RESPONSIVE GALLERY */
+
+/* Tablets y pantallas medianas */
+@media (max-width: 850px) {
+  .category-menu {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1rem 0 2.5rem;
+  }
+
+  .category-btn {
+    font-size: 1rem;
+    padding: 0.45rem 1rem;
+  }
+
+  .image-container {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 8px;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 500px) {
+
+  /* menú de categorías: pasa a columna para mejor uso en móvil */
+  .category-menu {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    /* centra botones de ancho reducido */
+  }
+
+  .category-btn {
+    width: 80%;
+    font-size: 0.95rem;
+  }
+
+  /* galería: una columna en móvil */
+  .image-container {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}

@@ -1,0 +1,175 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    margin: 0;
+}
+
+/* MAIN CONTAINER */
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    background-color: #91a6a6;
+    padding: 50px;
+    max-width: 1000px; /* max-width y el margin: centran el contenedor y limitan su ancho máximo */
+    margin: 50px auto;
+    border-radius: 10px; /* redondear esquinas */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* LEFT COLUMN */
+.contact-info {
+    flex: 1; /* hace que esta columna crezca y comparta el espacio disponible (proporción flexible) */
+    min-width: 300px; /* evita que la columna se haga demasiado estrecha */
+    padding-right: 20px; /* espacio a la derecha para separar del formulario */
+}
+
+.contact-info h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.contact-info p {
+    line-height: 1.6;
+    color: #000;
+}
+
+.contact-info a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+/* subrayado animado de los enlaces a RRSS */
+.contact-info a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 0%;
+    height: 2.5px;
+    background-color: black;
+    transition: width 0.3s ease;
+}
+
+.contact-info a:hover::after {
+    width: 100%;
+}
+
+/* FORM */
+.contact-form {
+    flex: 1;
+    min-width: 300px;
+}
+
+.contact-form h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #2d3d3d;
+    letter-spacing: 0.5px;
+}
+
+.contact-form label {
+    display: block; /* en bloque para que cada etiqueta esté encima del input */
+    margin: 12px 0 6px;
+    font-weight: bold;
+    color: #000;
+}
+
+/* INPUTS */
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #fff;
+    color: #000;
+    transition: 0.25s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color:black;
+}
+
+/* TEXTAREA */
+.contact-form textarea {
+    resize: vertical; /* permite cambiar la altura del textarea solo verticalmente */
+    min-height: 120px;
+}
+
+/* BUTTON */
+.contact-form button {
+    margin-top: 18px;
+    background-color: black;
+    color: #ddd;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color:  #54b7b7;
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+/* Tablets (diseño vertical, fácil de leer) */
+@media (max-width: 850px) {
+  .contact-container {
+    padding: 30px 20px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact-info,
+  .contact-form {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+  }
+
+  .contact-form h3 {
+    margin-top: 20px;
+  }
+}
+
+/* Móviles */
+/*
+Reduce paddings para aprovechar el espacio.
+Reduce tamaños de fuente y padding de inputs para que todo quepa.
+Hace que el botón ocupe width:100% para facilitar tocarlo.
+*/
+@media (max-width: 500px) {
+  .contact-container {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .contact-info h2 {
+    font-size: 1.4em;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 0.95em;
+    padding: 8px;
+  }
+
+  .contact-form button {
+    width: 100%;
+  }
+}
+

@@ -1,0 +1,125 @@
+/* PAGE CONTAINER (main) */
+/* Convierte el <main> en un "contenedor flexible". 
+Sus hijos directos (los elementos dentro de <main>) 
+pasan a colocarse usando las reglas de flexbox */
+.page-container {
+  display: flex;
+  flex-direction: column; /* elementos hijos del main se colocan en una columna */
+  align-items: center; /* centra horizontalmente los hijos dentro del contenedor */
+  padding: 0 60px 60px; /* padding lateral e inferior */
+}
+
+/* PRESENTATION */
+.introduction p {
+  font-size: 1.3rem;
+  line-height: 1.8; /* line spacing */
+  max-width: 800px; /* limitas la anchura máxima del párrafo */
+  margin: 40px auto 150px; /* centra el párrafo y lo separa de lo anterior y lo siguiente */ 
+}
+
+/* ASIDE */
+.about-social {
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* centra hijos horizontalmente */
+  text-align: center;     /* centra el texto dentro de los hijos */
+}
+
+/* ABOUT ME */
+.about-social .about-me {
+  max-width: 35rem;       /* limita el ancho máximo del bloque para que el texto no ocupe líneas muy largas */
+  margin: 3rem auto; /* coloca el bloque centrado y le da espacio arriba y abajo. */
+}
+
+.about-me h3 {
+  color: #54b7b7;
+  margin-bottom: 10px; /* espacio debajo del título */
+}
+
+.about-me p {
+  color: #ddd;
+  line-height: 1.6;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* SOCIAL ICONS ROW */
+.social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  margin-top: 1.375rem;
+}
+
+.social-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color .18s, color .18s;
+}
+
+.social-icons a:hover,
+.social-icons a:focus {
+  color: #63b3b3;
+  background: rgba(99,179,179,0.06);
+}
+
+/* tamaño de los iconos SVG */
+.social-icons svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  display: block;
+}
+
+/* RESPONSIVE */
+/* Tablets y móviles grandes: si tiene menos de 850 píxeles de ancho */
+@media (max-width: 850px) {
+  .page-container {
+    /* evita que el contenido toque los bordes en pantallas más pequeñas */
+    padding: 0 30px 40px;
+  }
+
+  .image-container {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  .introduction p {
+    font-size: 1.1rem;
+    max-width: 90%;
+  }
+
+  .about-social .about-me {
+    max-width: 90%;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 500px) {
+  nav ul {
+    /* el menú pasa de estar en fila horizontal → a columna vertical */
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .image-container {
+    grid-template-columns: 1fr; /* la galería pasa a 1 sola columna */
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .introduction p {
+    /* texto más pequeño: tamaño estándar en el móvil */
+    font-size: 1rem;
+  }
+}
+

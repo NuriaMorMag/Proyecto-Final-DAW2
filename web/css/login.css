@@ -1,0 +1,28 @@
+body {
+    padding-top: 0px;
+    background-image: url("../img/party_in_praga.jpeg");
+    background-size: contain;      /* La imagen cubre toda la pantalla sin deformarse */
+    background-position: center; /* Centrada: Si se recorta, lo hace desde el centro */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-attachment: fixed; /* La imagen queda fija cuando haces scroll */
+    background-color: #000; /* fondo negro */
+}
+
+/* Crea un elemento falso antes del contenido del body */
+body::before { 
+    content: ""; 
+    position: fixed; 
+    inset: 0; 
+    background: rgba(0, 0, 0, 0.5); /* Crea una capa negra semitransparente */ 
+    z-index: -1; /* Coloca esta capa detrás del contenido pero delante del fondo */
+}
+
+h2 {
+    color: white;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: white;
+}
+

@@ -1,0 +1,258 @@
+/* todos los elementos */
+* {                 
+    margin: 0;  /*quita los márgenes por defecto(espacio fuera de los elementos) */      
+    padding: 0; /* quita el relleno interior por defecto (espacio dentro de los elementos) */       
+    box-sizing: border-box; /* ancho/alto de los elementos incluye padding y border */
+}
+
+
+/* La página puede ocupar el 100% de la altura de la pantalla
+Para que el footer se quede abajo
+Si html no tiene altura, el body tampoco puede tenerla */
+html, body { 
+  height: 100%; 
+}
+
+.page-container { 
+  /* Para que el footer se quede abajo */
+  flex: 1; /* ocupa todo el espacio libre: Como solo main tiene flex: 1, se lleva todas las porciones de espacio libre */ 
+}
+
+body {
+    background-color: #151414;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 0.02em;
+    line-height: 1.7; /* line spacing */
+    color: #ccc;
+    padding-top: 120px;
+
+    /* Para que el footer se quede abajo */
+    display: flex; /* Organiza tus hijos (header, main, footer) como si fueran bloques */
+    flex-direction: column; /* se colocan uno debajo del otro */
+    min-height: 100vh; /* Viewport Height - 100% de la altura de la pantalla */
+}
+
+header {
+  color: #ccc;
+  position: fixed; /* siempre queda visible, aunque se haga scroll */
+  top: 0; /* lo coloca arriba */
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4); /* transparente */
+  backdrop-filter: blur(6px); /* desenfoca lo que está detrás del header (efecto vidrio) */
+  z-index: 1000; /* quede por encima de elementos con z-index inferior */
+  padding: 20px 0; /* espacio arriba y abajo dentro del header */
+}
+
+nav ul {
+    list-style-type: none; /* elimina los puntos de lista */
+    display: flex;
+    justify-content: center; /* centra la lista en el header */
+    flex-wrap: wrap; /* permite que los botones pasen a la siguiente línea si no caben (útil en móvil) */
+}
+
+nav ul li {
+    margin: 0 1rem; /* agrega espacio a la izquierda y derecha de los elementos de la lista */
+}
+
+/* enlaces */
+nav a {
+  color: #ccc; 
+  text-decoration: none; /* quita subrayado por defecto */
+  font-weight: 500; /* texto más grueso */
+  transition: color 0.3s; /* suaviza el cambio de color cuando pasa a hoover */
+}
+
+/* cuando el usuario pasa el ratón o cuando el enlace tiene la clase .active */
+nav ul li a:hover,
+nav ul li a.active {
+  color: #54b7b7;
+}
+
+/* foco visible para accesibilidad del teclado:
+Cuando alguien navega con teclado y enfoca el icono (con Tab) */
+a:focus-visible {
+  outline: 3px solid rgba(99,179,179,0.28); /* dibuja un contorno visible para accesibilidad */
+  outline-offset: 3px; /* separa el contorno del elemento */
+}
+
+/* FORMATO GENERAL DE PÁGINA */
+.page-container {
+    margin-top: 100px; /* añade espacio arriba para que el contenido no quede debajo del header fijo */
+    text-align: center;
+    
+    /* Para que el footer se quede abajo */
+    flex: 1; /* ocupa todo el espacio libre */ 
+}
+
+h1 {
+    font-family: 'Cormorant Garamond', serif;
+    /*'Times New Roman', Times, serif;*/
+    color: #54b7b7;
+    font-size: clamp(2.0rem, 6vw, 3rem);
+    margin-bottom: 20px;
+    letter-spacing: 1.6px; 
+}
+
+h2, h3 { 
+    font-family:'Cormorant Garamond', serif;
+    color: #54b7b7; 
+    font-size: clamp(1.25rem, 3.3vw, 2.3rem);
+    margin-top: clamp(2.4rem, 6vw, 6rem);
+    margin-bottom: clamp(1.5rem, 3vw, 3rem);
+    letter-spacing: 1px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ccc;
+  margin-top: 50px; /* separa el footer del contenido anterior */
+}
+
+/* GALLERIES - GRID */
+.image-container {
+  display: grid; /* organiza os elementos hijos en una rejilla: en filas y columnas */
+  /* crea columnas automáticas de al menos 260px como quepan; 
+  si hay espacio extra las columnas crecen (1 fraccion del espacio disponible). 
+  Crea una rejilla responsiva que se ajusta automáticamente */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 30px; /* espacio entre celdas/imágenes */
+}
+
+/* IMAGES */
+.image-container img { 
+  width: 100%; /* la imagen ocupa todo el ancho y toda la altura de su contenedor (de su celda) */
+  aspect-ratio: 3 / 4; /* fija la proporción (ancho:alto = 3:4) : altura fija para TODAS las miniaturas */  
+  border-radius: 5px; /* esquinas redondeadas */
+  box-shadow:0px 4px 8px rgba(0, 0, 0, 0.3); /* añade una pequeña sombra */
+  object-fit: cover; /* la imagen rellena el contenedor manteniendo su proporción; 
+  se recorta si es necesario. Evita deformaciones (no estira la foto) */
+  display: block; /* evita espacios en blanco debajo de la imagen */
+  transition: transform 0.4s ease, filter 0.4s ease;
+  /* cursor: pointer; cuando la img es clicable */
+}
+
+.image-container img:hover {
+  transform: scale(1.20); /* agranda la imagen al 115% (efecto zoom) */
+  filter: brightness(1.15); /* aumenta brillo al pasar el ratón */
+  /* Combinado con transition en .image-container img:width: width:
+  filter - brightness, transform - scale */
+}
+
+/*FORMULARIOS LOGIN,  REGISTER, EDIT/ADD IMAGE*/
+/* Contenedor del formulario */
+.form-container {
+    width: 350px;
+    margin: 80px auto;
+    padding: 25px;
+    background: #1c1b1b;
+    border-radius: 10px;
+    border: 1px solid #444;
+    color: #ccc;
+}
+
+/* Títulos */
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+
+/* Inputs */
+.form-container input[type="text"],
+.form-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 18px 0;
+    border-radius: 6px;
+    border: 1px solid #555;
+    background: #111;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="password"]:focus {
+    border-color: #63b3b3;
+    outline: none;
+}
+
+.form-container a { 
+  color: #ccc;  
+  text-decoration: none; 
+} 
+
+.form-container a:visited { 
+  color: #ccc; /* mismo color para visitado */ 
+} 
+
+.form-container a:hover { 
+  color:  white; 
+}
+
+/* Botones */
+.form-container input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    background: #ccc;
+    border: none;
+    border-radius: 6px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.form-container input[type="submit"]:hover {
+    background: white;
+}
+
+/* Mensajes */
+.form-container p {
+    margin: 0 0 10px 0;
+}
+
+/* links del menu desactivados para los invitados */
+.disabled-link { 
+  opacity: 0.4; 
+  pointer-events: none; 
+  cursor: not-allowed; 
+}
+
+/* RESPONSIVE */
+/* Controlar el hover en pantallas táctiles
+Aplica este :hover sólo en dispositivos que sí soportan hover 
+y tienen un puntero fino (ratón) */
+@media (hover: hover) and (pointer: fine) {
+  /* pointer: fine = puntero preciso (ratón), no dedo */
+  .image-container img:hover {
+    transform: scale(1.20); /* suave */
+    filter: brightness(1.15);
+  }
+}
+
+/* Espacio encima del contenido se ajusta automáticamente dependiendo del dispositivo */
+@media (max-width: 600px) {
+  .page-container {
+    margin-top: 110px;
+  }
+}
+
+/*Formularios login y register responsivos*/
+@media (max-width: 480px) {
+    .form-container {
+        padding: 18px;
+        margin: 40px auto;
+    }
+
+    .form-container h2 {
+        font-size: 20px;
+    }
+
+    .form-container input[type="submit"] {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
