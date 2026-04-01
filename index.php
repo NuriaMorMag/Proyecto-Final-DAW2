@@ -44,13 +44,13 @@ if (isset($_SESSION['user'])) {
     if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'addImage') {
 
         if (!userCanManageImages()) {
-            die('You don\'t have permission to add images.'); 
+            die('You don\'t have permission to add images.');
         }
 
         $page = "addImage";  // para que cargue el css correspondiente
 
         include 'app/layouts/header.php';
-        include 'app/layouts/addImage.php'; 
+        include 'app/layouts/addImage.php';
         include 'app/layouts/footer.php';
         exit();
     }
@@ -59,7 +59,7 @@ if (isset($_SESSION['user'])) {
     if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'saveImage') {
 
         if (!userCanManageImages()) {
-            die("You don't have permission to save images."); 
+            die("You don't have permission to save images.");
         }
 
         $title    = $_POST['title'] === '' ? NULL : $_POST['title']; //Si no se escribe nada: NULL
@@ -71,25 +71,55 @@ if (isset($_SESSION['user'])) {
         $is_blog = isset($_POST['is_blog']) ? 1 : 0;
 
         // Upload real image  
-        if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) { 
-            die("Error uploading image."); 
+        if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+            die("Error uploading image.");
         }
 
-        $path = basename($_FILES['image']['name']); 
+        $path = basename($_FILES['image']['name']);
         $targetPath = "web/img/" . $path;
 
-        if (!move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) { 
-            die("The image couldn't be saved on the server."); 
-        } 
-        
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+            die("The image couldn't be saved on the server.");
+        }
+
+    
+        // OPTIMIZATION after saving
+
+        // Compress the original photo (same size, less file weight)
+        // Overwrite the same path ($targetPath): abre la imagen, la comprime, y la guarda en el mismo archivo reemplazando la original
+        compressImage($targetPath, $targetPath, 80);
+
+        // Create a thumbnail (smaller image in pixels for the gallery)
+        $thumbPath = "web/img/thumbs/" . $path;
+        createThumbnail($targetPath, $thumbPath, 600); // 600px de ancho máximo
+
+
+        if (!file_exists($thumbPath)) {
+            die("ERROR: The thumbnail was not created in: " . $thumbPath);
+        } else {
+            echo "Thumbnail was not created in: " . $thumbPath;
+        }
+
+        // Create WebP version (modern and lighter format)
+        $webpPath = "web/img/webp/" . pathinfo($path, PATHINFO_FILENAME) . ".webp";
+        convertToWebP($targetPath, $webpPath, 80);
+
+        // Create WebP version of the thumbnail 
+        $thumbWebpPath = "web/img/webp/thumbs/" . pathinfo($path, PATHINFO_FILENAME) . ".webp";
+        convertToWebP($thumbPath, $thumbWebpPath, 70);
+
+        if (!file_exists($thumbWebpPath)) {
+            die("ERROR: The WebP of the thumbnail was not created: " . $thumbWebpPath);
+        }
+
         // Save in db 
         $bd->addImage($title,  $targetPath, $alt, $category, $date, $commentary, $is_blog);
 
         header('Location: index.php?page=gallery');
-        
-        echo "<pre>"; 
-        print_r($_POST); 
-        echo "</pre>"; 
+
+        echo "<pre>";
+        print_r($_POST);
+        echo "</pre>";
 
         exit();
     }
@@ -111,7 +141,7 @@ if (isset($_SESSION['user'])) {
         $image = $bd->getImageById($id);
 
         include 'app/layouts/header.php';
-        include 'app/layouts/editImage.php'; 
+        include 'app/layouts/editImage.php';
         include 'app/layouts/footer.php';
         exit();
     }
@@ -123,9 +153,9 @@ if (isset($_SESSION['user'])) {
             die("You don't have permission to update images.");
         }
 
-        $id = $_POST['id'] ?? NULL; 
-        if (!$id) { 
-            die("Invalid image ID."); 
+        $id = $_POST['id'] ?? NULL;
+        if (!$id) {
+            die("Invalid image ID.");
         }
 
         $title = $_POST['title'] === '' ? NULL : $_POST['title'];
@@ -193,10 +223,10 @@ if (isset($_SESSION['user'])) {
 }
 
 /* GUEST ACCESS */
-if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'Sign in as a guest') { 
-    $_SESSION['guest'] = true; 
-    header("Location: index.php?page=home"); 
-    exit(); 
+if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'Sign in as a guest') {
+    $_SESSION['guest'] = true;
+    header("Location: index.php?page=home");
+    exit();
 }
 
 /* LOGIN PROCESS */
@@ -284,7 +314,7 @@ if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Create account") {
 
 /* REGISTER FORM */
 if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Sign up") {
-    
+
     $page = 'login'; //para que se aplique login.css en register.php
 
     include "app/layouts/header.php";
@@ -293,11 +323,11 @@ if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Sign up") {
     exit();
 }
 
-/* GUEST LOGOUT (volver al login desde modo invitado) */ 
-if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'guest_logout') { 
+/* GUEST LOGOUT (volver al login desde modo invitado) */
+if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'guest_logout') {
     unset($_SESSION['guest']); // quitamos el modo invitado 
     header("Location: index.php"); // vuelve al flujo normal: mostrará el login 
-    exit(); 
+    exit();
 }
 
 /* GUEST MODE */
@@ -325,5 +355,3 @@ include "app/layouts/header.php";
 include "app/layouts/login.php";
 include "app/layouts/footer.php";
 exit();
-
-

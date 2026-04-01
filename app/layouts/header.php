@@ -10,7 +10,8 @@
     <meta name="author" content="Nuria Moreno Magaña">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="web/img/favicon.jpg"> <!-- icon in the browser tab -->
-
+    <!--Para ver imagenes bien al clicarlas-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet"> <!-- Archivo CSS de Lightbox en CDN -->
 
     <!-- Google Fonts: Fuente para títulos y texto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
     <!-- CSS común -->
-    <link rel="stylesheet" href="web/css/style.css?v=11">
+    <link rel="stylesheet" href="web/css/style.css?v=12">
 
     <!-- CSS específico según la vista -->
     <?php if (isset($page)): ?>
