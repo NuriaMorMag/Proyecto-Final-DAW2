@@ -1,0 +1,8 @@
+RewriteEngine On
+
+RewriteRule ^home$ index.php?page=home [L,QSA]
+RewriteRule ^gallery$ index.php?page=gallery [L,QSA]
+RewriteRule ^about$ index.php?page=about [L,QSA]
+RewriteRule ^contact$ index.php?page=contact [L,QSA]
+RewriteRule ^blog$ index.php?page=blog [L,QSA]
+
