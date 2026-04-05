@@ -193,6 +193,35 @@ if (isset($_SESSION['user'])) {
     // Si no se pide ninguna vista, se va a home
     $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
+
+    // Browser title changes depending on the page
+    switch ($page) {
+    case 'home':
+        $pageTitle = "Shooting Mood - Photography Portfolio | Nuria Moreno";
+        break;
+
+    case 'gallery':
+        $pageTitle = "Photo Gallery - Everyday & Event Photography | Shooting Mood";
+        break;
+
+    case 'about':
+        $pageTitle = "About Me - Photographer Nuria Moreno | Shooting Mood";
+        break;
+
+    case 'contact':
+        $pageTitle = "Contact - Message Photographer Nuria Moreno | Shooting Mood";
+        break;
+
+    case 'blog':
+        $pageTitle = "Photography Blog - Behind the Moments & Personal Stories | Shooting Mood";
+        break;
+
+    default:
+        $pageTitle = "Shooting Mood - Photography Portfolio | Nuria Moreno";
+        break;
+}
+
+
     include "app/layouts/header.php";
 
     switch ($page) {

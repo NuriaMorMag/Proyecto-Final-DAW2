@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Shooting Mood | Nuria Moreno</title>
+    <title><?= htmlspecialchars($pageTitle ?? "Shooting Mood - Photography Portfolio | Nuria Moreno") ?></title>
     <meta name="description" content="A photography blog showcasing particular and beautiful moments of people.">
     <meta name="keywords"
         content="photography, portraits, camera, session, photo editing, photography types, photography blog, photo model">
