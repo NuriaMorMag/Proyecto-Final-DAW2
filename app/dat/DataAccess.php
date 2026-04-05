@@ -2,7 +2,7 @@
 
 /**
  * DAO — Data Access Object
- * Clase que habla con la BD
+ * This class communicates with DB
  */
 
 require_once "Userapp.php";
@@ -11,10 +11,10 @@ require_once "app/config.php";
 
 class DataAccess
 {
-    private static $model = null; //Guarda la única instancia de la clase (Singleton)
-    private $connection = null; //Conexión a la bd
+    private static $model = null; // Stores the single instance of this class (Singleton)
+    private $connection = null; // DB connection
 
-    // Sentencias preparadas
+    // Prepared statements
     private $stmt_getUser = null;
     private $stmt_addUser = null;
 
@@ -26,10 +26,9 @@ class DataAccess
     private $stmt_deleteImage = null;
     private $stmt_getBlogPosts = null;
 
-    /*
-    Si no existe el objeto, lo crea
-    Hace que no haya dos conexiones a la BD
-    */
+    
+    // If the object does not exist, create it
+    // Ensures there is only one database connection
     public static function getModel()
     {
         if (self::$model == null) {
@@ -38,21 +37,25 @@ class DataAccess
         return self::$model;
     }
 
-    //Privado para que solo la propia clase pueda crear el objeto
-    //No se puede hacer new DataAccess(); pero sí DataAccess::getModel();
+    // Private so only this class can create the object
+    // You cannot do "new DataAccess()", but you can call DataAccess::getModel()
     private function __construct()
     {
         try {
             $dsn = "mysql:host=" . SERVER_DB . ";dbname=" . DATABASE . ";charset=utf8";
             $this->connection = new PDO($dsn, DB_USER, DB_PASSWD);
-            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //si hay un error se lanza una excepcion 
-            $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); //MySQL arma la consulta con valores separados (recibe el valor por separado)
+            
+            // Throw exceptions when errors occur
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+            
+            // MySQL constructs the query using separate values (it receives each value individually)
+            $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); 
         } catch (PDOException $e) {
             echo "Database connection failed " . $e->getMessage();
             exit();
         }
 
-        // PREPARO TODAS LAS SENTENCIAS UNA SOLA VEZ
+        // PREPARE ALL STATEMENTS ONLY ONCE
         try {
             $this->stmt_getUser = $this->connection->prepare("SELECT * FROM userapp WHERE login = :login");
             $this->stmt_addUser = $this->connection->prepare("INSERT INTO userapp (login, name, email, password) VALUES (:login, :name, :email, :password)");
@@ -70,7 +73,7 @@ class DataAccess
         }
     }
 
-    //Cierra la conexión anulando todos los objectos relacioanado con la conexión PDO (stmt)
+    // Close the connection by removing all PDO-related objects
     public static function closeModel()
     {
         if (self::$model != null) {
@@ -89,12 +92,13 @@ class DataAccess
         }
     }
 
-    //Devuelve un usuario o false
+    // Returns a user object or false
     public function getUser(String $login)
     {
         $user = false;
 
-        $this->stmt_getUser->setFetchMode(PDO::FETCH_CLASS, 'Userapp'); //Indica que los resultados de la consulta deben devolverse como objetos de la clase Userapp.
+        // Indicates that the query results should be returned as objects of the Userapp class
+        $this->stmt_getUser->setFetchMode(PDO::FETCH_CLASS, 'Userapp'); 
         $this->stmt_getUser->bindParam(':login', $login);
 
         if ($this->stmt_getUser->execute()) {
@@ -105,7 +109,7 @@ class DataAccess
         return $user;
     }
 
-    // Añadir usuario al registrarse
+    // Add a new user during registration
     public function addUser($user)
     {
         $this->stmt_addUser->bindValue(':login', $user->login);
@@ -115,14 +119,14 @@ class DataAccess
         return $this->stmt_addUser->execute();
     }
 
-    // Devuelve todas las imágenes
+    // Return all images
     public function getAllImages()
     {
         $this->stmt_allImages->execute();
         return $this->stmt_allImages->fetchAll(PDO::FETCH_CLASS, "Gallery");
     }
 
-    // Devuelve las imágenes por categoría
+    // Return images by category
     public function getImagesByCategory($category)
     {
         $this->stmt_imagesByCategory->bindParam(":cat", $category);
@@ -130,7 +134,7 @@ class DataAccess
         return $this->stmt_imagesByCategory->fetchAll(PDO::FETCH_CLASS, "Gallery");
     }
 
-    // Obtener una imagen por ID 
+    // Get an image by ID 
     public function getImageById($id)
     {
         $this->stmt_getImageById->bindValue(':id', $id, PDO::PARAM_INT);
@@ -139,8 +143,8 @@ class DataAccess
         return $this->stmt_getImageById->fetch();
     }
 
-    /* AÑADIR, MODIFICAR O ELIMINAR IMÁGENES */
-    // Añadir imagen
+    /* ADD, UPDATE OR DELETE IMAGES */
+    // Add image
     public function addImage($title, $path, $alt, $category, $date, $commentary, $is_blog)
     {
         $this->stmt_addImage->bindValue(':t', $title);
@@ -153,7 +157,7 @@ class DataAccess
         return $this->stmt_addImage->execute();
     }
 
-    // Actualizar imagen
+    // Update image
     public function updateImage($id, $title, $alt, $category, $date, $commentary, $is_blog)
     {
         $this->stmt_updateImage->bindValue(':t', $title);
@@ -166,14 +170,14 @@ class DataAccess
         return $this->stmt_updateImage->execute();
     }
 
-    // Eliminar imagen
+    // Delete image
     public function deleteImage($id)
     {
         $this->stmt_deleteImage->bindValue(':id', $id, PDO::PARAM_INT);
         return $this->stmt_deleteImage->execute();
     }
 
-    // Obtener datos para el blog
+    // Get blog posts (images marked as blog entries)
     public function getBlogPosts()
     {
         $this->stmt_getBlogPosts->execute();
@@ -181,7 +185,7 @@ class DataAccess
     }
   
 
-    // Evita la clonación del Singleton 
+    // Prevent cloning of the Singleton
     public function __clone()
     {
         trigger_error("You cannot clone a Singleton", E_USER_ERROR);

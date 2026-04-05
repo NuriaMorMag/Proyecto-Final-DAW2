@@ -1,7 +1,8 @@
 <?php
 
-// index.php llama a config.php para conectarse a la base de datos
-// defines datos para conectarte a la base de datos (servidor, usuario, contraseña y nombre de la BD)
+// index.php loads config.php to connect to the database
+// Here we define the database connection details:
+// server, username, password, and database name
 define('SERVER_DB', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASSWD', '');

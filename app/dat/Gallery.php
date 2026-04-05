@@ -1,7 +1,7 @@
 <?php
 /**
  * DTO (Data Transfer Object) 
- * Representa 1 fila de la tabla userapp: Un usuario tiene id, login y contraseña
+ * Represents one row from the 'gallery' table
  */
 
 class Gallery
@@ -15,7 +15,6 @@ class Gallery
     public $commentary;
     public $is_blog;
 
-    // Getter con método mágico 
     public function __get($attribute)
     {
         if (property_exists($this, $attribute)) {
@@ -23,7 +22,6 @@ class Gallery
         }
     }
 
-    // Setter con método mágico 
     public function __set($attribute, $value)
     {
         if (property_exists($this, $attribute)) {

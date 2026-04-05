@@ -34,8 +34,6 @@
     <input type="checkbox" name="is_blog" id="is_blog" value="1"> 
     <br><br>
 
-
-
     <button type="submit">Save image</button>
 </form>
 

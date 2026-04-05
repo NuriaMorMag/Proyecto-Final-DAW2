@@ -1,5 +1,4 @@
 <?php
-// index.php → controller 
 
 require_once "app/dat/DataAccess.php";
 require_once "app/dat/Gallery.php";
@@ -10,10 +9,10 @@ session_start();
 $message = "";
 
 /* SESSION TIME CONTROL (10 min) 
-Antes que nada: si caduca se corta todo
-Comprueba si el usuario estaba logueado antes ($_SESSION['timeout'] se define en el proceso login)
-Mira cuánto tiempo ha pasado desde la última acción
-Si han pasado 10 minutos se cierra la sesión y se vuelve al login
+Before anything else: if the session expires, everything stops
+Checks if the user was logged in before ($_SESSION['timeout'] is set in login)
+Looks at how much time has passed since the last action
+If time is out the session ends and the user is sent back to login
 */
 if (isset($_SESSION['timeout'])) {
     if (time() - $_SESSION['timeout'] > 600) {
@@ -32,22 +31,23 @@ if (isset($_REQUEST['order']) && $_REQUEST['order'] == "signout") {
 
 /* LOGGED-IN USER */
 if (isset($_SESSION['user'])) {
-    //Cada vez que se interactúa con la página se actualiza el tiempo
+    // Every time the user interacts with the page session time is updated
     $_SESSION['timeout'] = time();
 
     $bd = DataAccess::getModel();
 
 
-    /* ACCIONES SOBRE IMÁGENES (antes del switch de páginas) */
+    /* ACTIONS RELATED TO IMAGES (before the page switch) */
 
     // ADD IMAGE
     if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'addImage') {
 
+        // Check permissions
         if (!userCanManageImages()) {
             die('You don\'t have permission to add images.');
         }
 
-        $page = "addImage";  // para que cargue el css correspondiente
+        $page = "addImage";  // so that the corresponding CSS file loads
 
         include 'app/layouts/header.php';
         include 'app/layouts/addImage.php';
@@ -58,6 +58,7 @@ if (isset($_SESSION['user'])) {
     // SAVE NEW IMAGE  
     if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'saveImage') {
 
+        // Check permissions
         if (!userCanManageImages()) {
             die("You don't have permission to save images.");
         }
@@ -86,12 +87,12 @@ if (isset($_SESSION['user'])) {
         // OPTIMIZATION after saving
 
         // Compress the original photo (same size, less file weight)
-        // Overwrite the same path ($targetPath): abre la imagen, la comprime, y la guarda en el mismo archivo reemplazando la original
+        // Overwrite the same path ($targetPath): opens the image, compresses it, and saves it to the same file, replacing the original
         compressImage($targetPath, $targetPath, 80);
 
         // Create a thumbnail (smaller image in pixels for the gallery)
         $thumbPath = "web/img/thumbs/" . $path;
-        createThumbnail($targetPath, $thumbPath, 600); // 600px de ancho máximo
+        createThumbnail($targetPath, $thumbPath, 600); // Maximum width of 600px
 
 
         if (!file_exists($thumbPath)) {
@@ -112,7 +113,7 @@ if (isset($_SESSION['user'])) {
             die("ERROR: The WebP of the thumbnail was not created: " . $thumbWebpPath);
         }
 
-        // Save in db 
+        // Save in DB 
         $bd->addImage($title,  $targetPath, $alt, $category, $date, $commentary, $is_blog);
 
         header('Location: index.php?page=gallery');
@@ -127,15 +128,16 @@ if (isset($_SESSION['user'])) {
     // EDIT IMAGE
     if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'editImage') {
 
+        // Check permissions
         if (!userCanManageImages()) {
             die("You don't have permission to edit images.");
         }
 
-        $page = "editImage"; // para que cargue el css correspondiente
+        $page = "editImage"; //  so that the corresponding CSS file loads
 
         $id = $_GET['id'] ?? NULL;
         if (!$id) {
-            die('Image not found.'); //Si el ID está vacío, es 0, es NULL o es falso:
+            die('Image not found.'); // If the ID is empty, 0, NULL, or any false value, stop the process
         }
 
         $image = $bd->getImageById($id);
@@ -149,6 +151,7 @@ if (isset($_SESSION['user'])) {
     // UPDATE IMAGE
     if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'updateImage') {
 
+        // Check permissions
         if (!userCanManageImages()) {
             die("You don't have permission to update images.");
         }
@@ -166,6 +169,7 @@ if (isset($_SESSION['user'])) {
 
         $is_blog = isset($_POST['is_blog']) ? 1 : 0;
 
+        // Update the image in the database
         $bd->updateImage($id, $title, $alt, $category, $date, $commentary, $is_blog);
 
         header('Location: index.php?page=gallery');
@@ -175,12 +179,15 @@ if (isset($_SESSION['user'])) {
     // DELETE IMAGE
     if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'deleteImage') {
 
+        // Check permissions
         if (!userCanManageImages()) {
             die("You don't have permission to delete images.");
         }
 
+        // Get the image ID
         $id = $_GET['id'] ?? null;
 
+        // If the ID exists, delete the image
         if ($id) {
             $bd->deleteImage($id);
         }
@@ -273,7 +280,7 @@ if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Sign in") {
             $_SESSION['user'] = $user->login;
             $_SESSION['name'] = $user->name;
             $_SESSION['timeout'] = time();
-            header("Location: index.php"); //Fuerza a volver a empezar ya con sesión activa para que: isset($_SESSION['user'])
+            header("Location: index.php"); // Force a restart while the session is active so that: isset($_SESSION['user'])
             exit();
         } else {
             $message = "Incorrect user or password";
@@ -290,7 +297,7 @@ if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Create account") {
     $password = $_REQUEST['password'];
     $password2 = $_REQUEST['password2'];
 
-    // Validar campos vacíos 
+    // Check empty fields 
     if (empty($name) || empty($login) || empty($email) || empty($password) || empty($password2)) {
         $message = "All fields are required";
         include "app/layouts/header.php";
@@ -299,7 +306,7 @@ if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Create account") {
         exit();
     }
 
-    // Validar contraseñas iguales 
+    // Check passwords match 
     if ($password !== $password2) {
         $message = "Passwords do not match";
         include "app/layouts/header.php";
@@ -308,7 +315,7 @@ if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Create account") {
         exit();
     }
 
-    // Comprobar si ya existe un usuario con ese login
+    // Check if login already exists
     $bd = DataAccess::getModel();
     $user = $bd->getUser($login);
 
@@ -321,14 +328,14 @@ if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Create account") {
         exit();
     }
 
-    // Crear nuevo usuario
-    $newUser = new Userapp(); // o el nombre de tu clase de usuario
+    // Create new user
+    $newUser = new Userapp(); 
     $newUser->name  = $name;
     $newUser->login = $login;
     $newUser->email = $email;
     $newUser->password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Guardar usuario en la base de datos
+    // Save user in database
     $bd->addUser($newUser);
 
     // Iniciar sesión automáticamente 
@@ -336,7 +343,7 @@ if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Create account") {
     $_SESSION['name'] = $newUser->name;
     $_SESSION['timeout'] = time();
 
-    // Redirigir a la página principal
+    // Redirect to home
     header("Location: index.php");
     exit();
 }
@@ -344,7 +351,7 @@ if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Create account") {
 /* REGISTER FORM */
 if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Sign up") {
 
-    $page = 'login'; //para que se aplique login.css en register.php
+    $page = 'login'; // so that login.css is applied in register.php
 
     include "app/layouts/header.php";
     include "app/layouts/register.php";
@@ -352,10 +359,10 @@ if (isset($_REQUEST['order']) && $_REQUEST['order'] == "Sign up") {
     exit();
 }
 
-/* GUEST LOGOUT (volver al login desde modo invitado) */
+/* GUEST LOGOUT (return to the login page from guest mode) */
 if (isset($_REQUEST['order']) && $_REQUEST['order'] === 'guest_logout') {
-    unset($_SESSION['guest']); // quitamos el modo invitado 
-    header("Location: index.php"); // vuelve al flujo normal: mostrará el login 
+    unset($_SESSION['guest']);  
+    header("Location: index.php"); // Return to normal flow: the login screen appear 
     exit();
 }
 
@@ -377,9 +384,9 @@ if (isset($_SESSION['guest']) && !isset($_SESSION['user'])) {
 }
 
 /* LOGIN FORM */
-// Si el usuario no está autenticado se va aquí
-unset($_SESSION['guest']); // dejas de ser invitado para que no te mande siempre a home
-$page = 'login';  //para que se aplique login.css en login.php
+// If the user is not logged in, they will be redirected here
+unset($_SESSION['guest']); // You stop being guest so I don't keep sending you home
+$page = 'login';  // so that login.css is applied in login.php
 include "app/layouts/header.php";
 include "app/layouts/login.php";
 include "app/layouts/footer.php";

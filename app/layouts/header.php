@@ -10,18 +10,18 @@
     <meta name="author" content="Nuria Moreno Magaña">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="web/img/favicon.jpg"> <!-- icon in the browser tab -->
-    <!--Para ver imagenes bien al clicarlas-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet"> <!-- Archivo CSS de Lightbox en CDN -->
+    <!-- To display images properly when clicking them -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet"> <!-- Lightbox CSS file on CDN -->
 
-    <!-- Google Fonts: Fuente para títulos y texto -->
+    <!-- Google Fonts: font for titles and text -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-    <!-- CSS común -->
+    <!-- Common CSS -->
     <link rel="stylesheet" href="web/css/style.css?v=12">
 
-    <!-- CSS específico según la vista -->
+    <!-- Page‑specific CSS depending on the current view -->
     <?php if (isset($page)): ?>
         <link rel="stylesheet" href="web/css/<?= $page ?>.css?v=13">
     <?php endif; ?>
@@ -32,7 +32,7 @@
     <header>
         <nav>
             <ul>
-                <!-- Ponemos class="active" según la página en la que esté -->
+                <!-- Add class="active" depending on the current page -->
                 <li>
                     <a href="index.php?page=home"
                         class="<?= (isset($page) && $page === 'home') ? 'active' : '' ?>">
@@ -54,7 +54,7 @@
                     </a>
                 </li>
                 <li>
-                    <!--Con la almohadilla el enlace queda desactivado-->
+                    <!-- # disables the link when the user is a guest -->
                     <a href="<?= isset($_SESSION['guest']) ? '#' : 'index.php?page=contact' ?>"
                         class="<?= (isset($page) && $page === 'contact') ? 'active' : '' ?>
                         <?= isset($_SESSION['guest']) ? 'disabled-link' : '' ?>">
@@ -70,7 +70,7 @@
                 </li>
             </ul>
 
-            <!-- Welcome y Logout solo aparecen si la sesión existe -->
+            <!-- Welcome message and Logout button only appear when the user is logged in -->
             <?php if (isset($_SESSION['user'])): ?>
                 <p class="welcome">Welcome, <?= htmlspecialchars($_SESSION['name']) ?></p>
 

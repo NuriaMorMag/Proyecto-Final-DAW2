@@ -17,7 +17,7 @@
     <input type="submit" name="order" value="Sign in"><br>
 </form>
 
-<form> <!-- Dos form para que “Register” solo envíe order=Register, sin campos vacíos -->
+<form> <!-- Two separate forms so “Sign up” sends only order=Sign up, without empty fields -->
     <input type="submit" name="order" value="Sign up">
 
     <input type="submit" name="order" value="Sign in as a guest">

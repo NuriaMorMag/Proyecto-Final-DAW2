@@ -1,2 +1,2 @@
-//Obtener el año actual
+// Get the current year
 document.getElementById('year').textContent = new Date().getFullYear();

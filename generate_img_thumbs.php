@@ -1,6 +1,6 @@
 <?php
 set_time_limit(0);
-require_once "app/functions.php"; // Ajusta si tu ruta es distinta
+require_once "app/functions.php"; 
 
 $dir = "web/img/";
 $thumbDir = "web/img/thumbs/";
@@ -15,21 +15,21 @@ foreach ($files as $file) {
 
     $path = $dir . $file;
 
-    // Saltar carpetas
+    // Skip folders
     if (is_dir($path)) continue;
 
-    // Solo procesar imágenes JPG/PNG
+    // Only process images JPG/PNG
     $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
     if (!in_array($ext, ["jpg", "jpeg", "png"])) continue;
 
-    echo "<strong>Procesando:</strong> $file<br>";
+    echo "<strong>Processing:</strong> $file<br>";
 
-    // Rutas destino
+    // Destunarion routes
     $thumbPath = $thumbDir . $file;
     $webpPath = $webpDir . pathinfo($file, PATHINFO_FILENAME) . ".webp";
     $thumbWebpPath = $thumbWebpDir . pathinfo($file, PATHINFO_FILENAME) . ".webp";
 
-    // MINIATURA
+    // THUMB
     if (!file_exists($thumbPath)) {
         createThumbnail($path, $thumbPath, 600);
         echo "✔ Miniatura creada<br>";
@@ -45,7 +45,7 @@ foreach ($files as $file) {
         echo "— WebP original ya existía, saltado<br>";
     }
 
-    // WEBP MINIATURA
+    // WEBP THUMB
     if (!file_exists($thumbWebpPath)) {
         convertToWebP($thumbPath, $thumbWebpPath, 70);
         echo "✔ WebP miniatura creado<br>";

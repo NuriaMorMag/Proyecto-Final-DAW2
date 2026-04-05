@@ -1,7 +1,7 @@
 <h1>Shooting Mood</h1>
 
 <section class="contact-container">
-    <!-- COLUMNA IZQUIERDA -->
+    <!-- LEFT COLUMN -->
     <div class="contact-info">
         <h2>LEAVE A MESSAGE</h2>
         <p>Fill in the form with your details and message to contact me.</p>
@@ -12,7 +12,7 @@
         </p>
     </div>
 
-    <!-- COLUMNA DERECHA -->
+    <!-- RIGHT COLUMN -->
     <div class="contact-form">
         <h3>Personal information</h3>
 
