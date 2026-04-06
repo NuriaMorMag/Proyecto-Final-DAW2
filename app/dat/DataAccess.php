@@ -25,8 +25,9 @@ class DataAccess
     private $stmt_updateImage = null;
     private $stmt_deleteImage = null;
     private $stmt_getBlogPosts = null;
+    private $stmt_addMessage = null;
 
-    
+
     // If the object does not exist, create it
     // Ensures there is only one database connection
     public static function getModel()
@@ -44,12 +45,12 @@ class DataAccess
         try {
             $dsn = "mysql:host=" . SERVER_DB . ";dbname=" . DATABASE . ";charset=utf8";
             $this->connection = new PDO($dsn, DB_USER, DB_PASSWD);
-            
+
             // Throw exceptions when errors occur
-            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-            
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
             // MySQL constructs the query using separate values (it receives each value individually)
-            $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); 
+            $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } catch (PDOException $e) {
             echo "Database connection failed " . $e->getMessage();
             exit();
@@ -66,7 +67,7 @@ class DataAccess
             $this->stmt_updateImage = $this->connection->prepare("UPDATE gallery SET title = :t, alt = :a, category = :cat, date = :d, commentary = :com, is_blog = :b WHERE id = :id");
             $this->stmt_deleteImage = $this->connection->prepare("DELETE FROM gallery WHERE id = :id");
             $this->stmt_getBlogPosts = $this->connection->prepare("SELECT * FROM gallery WHERE is_blog = 1 ORDER BY date DESC");
-            
+            $this->stmt_addMessage = $this->connection->prepare("INSERT INTO contact_messages (name, email, phone, message) VALUES (:name, :email, :phone, :message)");
         } catch (PDOException $e) {
             echo " Error creating statements " . $e->getMessage();
             exit();
@@ -98,7 +99,7 @@ class DataAccess
         $user = false;
 
         // Indicates that the query results should be returned as objects of the Userapp class
-        $this->stmt_getUser->setFetchMode(PDO::FETCH_CLASS, 'Userapp'); 
+        $this->stmt_getUser->setFetchMode(PDO::FETCH_CLASS, 'Userapp');
         $this->stmt_getUser->bindParam(':login', $login);
 
         if ($this->stmt_getUser->execute()) {
@@ -183,7 +184,17 @@ class DataAccess
         $this->stmt_getBlogPosts->execute();
         return $this->stmt_getBlogPosts->fetchAll(PDO::FETCH_CLASS, "Gallery");
     }
-  
+
+    // Send a message (contact)
+    public function addMessage($name, $email, $phone, $message)
+    {
+        $this->stmt_addMessage->bindValue(':name', $name);
+        $this->stmt_addMessage->bindValue(':email', $email);
+        $this->stmt_addMessage->bindValue(':phone', $phone);
+        $this->stmt_addMessage->bindValue(':message', $message);
+
+        return $this->stmt_addMessage->execute();
+    }
 
     // Prevent cloning of the Singleton
     public function __clone()

@@ -1,5 +1,13 @@
 RewriteEngine On
 
+# If the file exists, do NOT rewrite it
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# If the directory exists, do NOT rewrite it
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
 RewriteRule ^home$ index.php?page=home [L,QSA]
 RewriteRule ^gallery$ index.php?page=gallery [L,QSA]
 RewriteRule ^about$ index.php?page=about [L,QSA]
