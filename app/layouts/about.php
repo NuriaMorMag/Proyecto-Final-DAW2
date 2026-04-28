@@ -18,7 +18,7 @@
     </div>
   </section>
 
-  <!-- MY PHOTO -->
+  <!-- PHOTO -->
   <figure class="about-photo">
     <img src="web/img/nuriap.png" alt="Photo of Nuria Moreno" loading="lazy">
   </figure>

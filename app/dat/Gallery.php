@@ -1,7 +1,7 @@
 <?php
 /**
  * DTO (Data Transfer Object) 
- * Represents one row from the 'gallery' table
+ * Represents one row from 'gallery' table
  */
 
 class Gallery

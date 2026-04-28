@@ -34,7 +34,7 @@ $headers = "From: $email";
 // Send email
 mail($to, $subject, $body, $headers);
 
-// Response to user
+// Answer to user
 if ($result) {
     echo "Message sent successfully.";
 } else {

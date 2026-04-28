@@ -28,8 +28,8 @@ class DataAccess
     private $stmt_addMessage = null;
 
 
-    // If the object does not exist, create it
-    // Ensures there is only one database connection
+    // If the object does not exist, creates it
+    // Ensures there's only one DB connection
     public static function getModel()
     {
         if (self::$model == null) {

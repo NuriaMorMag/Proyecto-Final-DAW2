@@ -1,7 +1,7 @@
 <?php
 /**
  * DTO (Data Transfer Object)
- * Represents one row from the 'userapp' table
+ * Represents one row from 'userapp' table
  */
 
 class Userapp {

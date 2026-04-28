@@ -14,16 +14,17 @@ function userCanManageImages() {
  *
  * $source - path to the original image file
  * $destination - path where the compressed version will be saved
- * $quality - quality (0–100), 80 is usually a good balance
+ * $quality - quality (0–100), 80 usually a good balance
  */
 function compressImage($source, $destination, $quality = 80) {
     $info = getimagesize($source); // get basic image info (type, width, height, etc.)
 
+    // $info['mime'] indicates the file type
     if ($info['mime'] === 'image/jpeg') {
-        $image = imagecreatefromjpeg($source);   // Create an image resource from a JPEG file
+        $image = imagecreatefromjpeg($source);   // Create an image resource from a JPEG file so that I can work with it
         imagejpeg($image, $destination, $quality); // Save the JPEG image with the given quality
     } elseif ($info['mime'] === 'image/png') {
-        $image = imagecreatefrompng($source);    // Create an image resource from a PNG file
+        $image = imagecreatefrompng($source);    
         // For PNG, compression goes from 0 (no compression) to 9
         imagepng($image, $destination, 6);      
     } else {
@@ -55,9 +56,9 @@ function createThumbnail($source, $destination, $maxWidth = 600) {
 
     // Load the original image depending on its type
     if ($info['mime'] === 'image/jpeg') {
-        $image = imagecreatefromjpeg($source);
+        $image = imagecreatefromjpeg($source); // Opens the jpeg img
     } elseif ($info['mime'] === 'image/png') {
-        $image = imagecreatefrompng($source);
+        $image = imagecreatefrompng($source); // Opens the png img
     } else {
         // If it is not JPG or PNG, stop
         return false;
@@ -77,7 +78,7 @@ function createThumbnail($source, $destination, $maxWidth = 600) {
 }
 
 /**
- * Convert a JPG or PNG image to WebP format.
+ * Convert a JPG or PNG image to WebP format
  *
  * $source - path to the original image
  * $destination - path where the WebP version will be saved

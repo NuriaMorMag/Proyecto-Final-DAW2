@@ -9,7 +9,7 @@
   <button class="category-btn" data-category="home">Home</button>
 </div>
 
-<!-- Gallery -->
+<!-- GALLERY -->
 <div class="image-container">
   <!-- Loop instead of writing all the <img> -->
   <?php foreach ($images as $img): ?>
@@ -34,7 +34,7 @@
 
       <!-- When you click: open the big WebP image in a lightbox -->
       <a href="<?= $originalWebp ?>"
-        data-lightbox="galeria"
+        data-lightbox="gallery"
         data-title="<?= htmlspecialchars($img->title) ?>">
 
         <picture>
