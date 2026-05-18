@@ -1,3 +1,5 @@
+<?php /** @var object[] $posts */ ?>
+
 <h1>Shooting Mood</h1>
 
 <section id="blog">

@@ -1,3 +1,5 @@
+<?php /** @var object $image */ ?>
+
 <h2>Edit image</h2>
 <div class="form-container">
 

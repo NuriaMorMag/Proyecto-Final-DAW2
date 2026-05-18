@@ -1,3 +1,5 @@
+<?php /** @var string $message */ ?>
+
 <h2>Access to Shooting Mood</h2>
 <div class="form-container">
 

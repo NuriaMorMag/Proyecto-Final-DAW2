@@ -1,3 +1,5 @@
+<?php /** @var object[] $images */ ?>
+
 <h1>Shooting Mood</h1>
 
 <h2>Gallery</h2>

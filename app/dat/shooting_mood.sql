@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-01-2026 a las 22:41:44
+-- Tiempo de generación: 28-04-2026 a las 19:56:22
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `shooting_mood`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `contact_messages`
+--
+
+CREATE TABLE `contact_messages` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `contact_messages`
+--
+
+INSERT INTO `contact_messages` (`id`, `name`, `email`, `phone`, `message`, `created_at`) VALUES
+(1, 'Natalia', 'natmm@gmail.com', '', 'Love your photos <3', '2026-04-06 08:09:18'),
+(2, '', '', '', '', '2026-04-06 09:44:40');
 
 -- --------------------------------------------------------
 
@@ -88,8 +111,16 @@ INSERT INTO `gallery` (`id`, `title`, `path`, `alt`, `category`, `commentary`, `
 (43, NULL, 'web/img/nat_axel_rosas.jpg', 'Friends talking', 'home', NULL, NULL, 0),
 (44, NULL, 'web/img/fotos_tienda_noruega.jpg', 'Photo wall', 'home', NULL, NULL, 0),
 (47, NULL, 'web/img/portal_pintado.jpg', 'Painted portal', 'home', NULL, NULL, 0),
-(60, NULL, 'web/img/viewpoint_train.jpg', 'Boy with wine at a viewpoint', 'day', NULL, NULL, 0),
-(61, NULL, 'web/img/friends_hugging.jpg', 'Friends hugging', 'day', NULL, NULL, 0);
+(60, 'Viewport in Chamartín', 'web/img/viewpoint_train.jpg', 'Boy with wine at a viewpoint', 'day', 'One day I was driving home with a friend, and we saw a couple on a wall overlooking the Chamartín trains, with a view of the towers. We wanted to get there but didn\'t know how to access it. A year later we found it, and my friend brought wine to celebrate it.', '2024-06-10', 1),
+(62, 'La Vía Láctea', 'web/img/20251018_083141_0.jpg', 'Guys in a bar', 'night', NULL, NULL, 0),
+(63, 'Rest on the train', 'web/img/20230729_020903_0.jpg', 'Couple in the train', 'day', NULL, NULL, 0),
+(64, 'The snow cancelled the exam', 'web/img/20260128_103218_2~2.jpg', 'Girl in the snow', 'day', NULL, NULL, 0),
+(65, 'Hand Poke', 'web/img/20260118_124849_0.jpg', 'Boy tattooing', 'home', NULL, NULL, 0),
+(66, 'Snow in Madrid', 'web/img/PXL_20260128_095231227.jpg', 'Snow', 'day', NULL, NULL, 0),
+(67, 'Couple hugging', 'web/img/20221220_103724_0.jpg', 'Couple hugging', 'night', NULL, NULL, 0),
+(68, 'Girl eating', 'web/img/20240704_081352_0.jpg', 'Girl eating', 'home', NULL, '0000-00-00', 0),
+(69, 'Bergen fjords', 'web/img/IMG_20240701_125603.jpg', 'Bergen fjords', 'day', NULL, '2026-06-10', 0),
+(71, 'Girl drinking beer', 'web/img/vialactea.jpeg', 'Girl drinking', 'night', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -120,6 +151,12 @@ INSERT INTO `userapp` (`login`, `name`, `password`, `email`) VALUES
 --
 
 --
+-- Indices de la tabla `contact_messages`
+--
+ALTER TABLE `contact_messages`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `gallery`
 --
 ALTER TABLE `gallery`
@@ -137,10 +174,16 @@ ALTER TABLE `userapp`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `contact_messages`
+--
+ALTER TABLE `contact_messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
