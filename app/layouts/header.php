@@ -10,7 +10,7 @@
     <meta name="author" content="Nuria Moreno Magaña">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="web/img/favicon.jpg"> <!-- icon in the browser tab -->
-    <!-- To display images properly when clicking them -->
+    <!-- To display images when clicking them -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet"> <!-- Lightbox CSS file on CDN -->
 
     <!-- Google Fonts: font for titles and text -->
@@ -23,7 +23,7 @@
 
     <!-- Page‑specific CSS depending on the current view -->
     <?php if (isset($page)): ?>
-        <link rel="stylesheet" href="web/css/<?= $page ?>.css?v=13">
+        <link rel="stylesheet" href="web/css/<?= $page ?>.css?v=14">
     <?php endif; ?>
 </head>
 

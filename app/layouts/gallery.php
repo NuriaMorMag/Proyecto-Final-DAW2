@@ -35,6 +35,7 @@
     <div class="photo">
 
       <!-- When you click: open the big WebP image in a lightbox -->
+      
       <a href="<?= $originalWebp ?>"
         data-lightbox="gallery"
         data-title="<?= htmlspecialchars($img->title) ?>">

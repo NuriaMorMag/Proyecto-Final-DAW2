@@ -92,6 +92,31 @@
   transition: color 0.3s;
 }
 
+/* LIGHTBOX */
+
+/* Fondo oscuro */
+#lightboxOverlay {
+    background-color: rgba(0, 0, 0, 0.95) !important;
+}
+
+/* Quitar borde blanco */
+.lb-image {
+    border: none !important;
+    border-radius: 8px;
+}
+
+/* Texto */
+.lb-data .lb-caption {
+    color: white;
+    font-size: 16px;
+}
+
+/* Número de imagen */
+.lb-data .lb-number {
+    color: #bbb;
+}
+
+
 /* RESPONSIVE GALLERY */
 
 /* Tablets y pantallas medianas */
